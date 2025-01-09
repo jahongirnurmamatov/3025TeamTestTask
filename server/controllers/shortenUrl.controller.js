@@ -5,6 +5,10 @@ import Visit from "../models/visit.model.js";
 export const shortenUrl = async (req, res) => {
   try {
     const { longUrl, expiresIn, alias } = req.body;
+    const exists = await ShortUrl.findOne({ longUrl });
+    if (exists) {
+      return res.status(200).json({ shortUrl: exists.shortUrl });
+    }
 
     if (alias && alias.length > 20) {
       return res
@@ -13,21 +17,17 @@ export const shortenUrl = async (req, res) => {
     }
     // check if exists already
     let shortUrl = alias;
+    const aliasExists = await ShortUrl.findOne({ shortUrl });
+    if (aliasExists) {
+      return res.status(400).json({ error: "Alias already exists." });
+    }
     if (!alias) {
       do {
         shortUrl = generateHash256(longUrl).slice(0, 6);
       } while (await ShortUrl.findOne({ shortUrl }));
     }
-    const aliasExists = await ShortUrl.findOne({ shortUrl });
-    if (aliasExists) {
-      return res.status(400).json({ error: "Alias already exists." });
-    }
-
     // Check if the original URL already has a short URL
-    const exists = await ShortUrl.findOne({ longUrl });
-    if (exists) {
-      return res.status(200).json({ shortUrl: exists.shortUrl });
-    }
+    
     //  this is just to awoid possible collisions even if chance is small
 
     let expiresAt = null;

@@ -1,0 +1,88 @@
+
+.container{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .container h1{
+    font-size: 2rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+  
+  }
+  
+  .input {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+  }
+  .input input{
+    flex: 1;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 1.2rem;
+  }
+  .input label{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+  }
+  .generate{
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease
+  }
+  .generate :hover{
+    background-color: #555;
+    scale: 1.05;
+  }
+  .result{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #ccc;
+  }
+  .result h2{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+  }
+  .result p{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease
+  }
+
+  .error{
+    color: red;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
