@@ -1,5 +1,6 @@
 import { generateHash256 } from "../middleware/generateHash256.js";
 import ShortUrl from "../models/shortUrl.model.js";
+import Visit from "../models/visit.model.js";
 
 export const shortenUrl = async (req, res) => {
   try {
@@ -42,8 +43,16 @@ export const getShortUrlAndRedirect = async (req, res) => {
     if (url) {
       url.clicks++;
       await url.save();
-      return res.status(200).json({ longUrl: url.longUrl });
     }
+    
+    const ip = req.ip || req.headers['x-forwarded-for']?.split(',')[0]; 
+
+    await Visit.create({
+      shortUrl: url._id,  
+      ip: ip,
+    });
+    
+    return res.status(200).json({ longUrl: url.longUrl });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -77,3 +86,23 @@ export const deleteShortUrl = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+export const getAnalytics = async (req, res) => {
+    const { shortUrl } = req.params;
+    
+    try {
+      const url = await ShortUrl.findOne({ shortUrl });
+      
+      if (!url) {
+        return res.status(404).json({ error: "Short URL not found" });
+      }
+      
+      const visits = await Visit.find({ shortUrl: url._id }).select("ip visitedAt -_id").sort({ visitedAt: -1 }).limit(5);  
+      
+      res.status(200).json({ clicks: url.clicks, lastVisits: visits });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
