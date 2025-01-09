@@ -23,3 +23,18 @@ export const shortenUrl = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getShortUrlAndRedirect = async(req,res)=>{
+    try {
+        const {shortUrl} = req.params;
+        const url = await ShortUrl.findOne({shortUrl});
+        if(!url) return res.status(404).json({message:"Not Found"});
+        if(url){
+            url.clicks++;
+            await url.save();
+            return res.status(200).json({longUrl:url.longUrl});
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
