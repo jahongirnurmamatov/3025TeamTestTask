@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import GenerateUrl from './components/GenerateUrl';
+import GenerateUrl from './components/generateUrl/GenerateUrl'
+import './App.css'
 
 const App = () => {
 

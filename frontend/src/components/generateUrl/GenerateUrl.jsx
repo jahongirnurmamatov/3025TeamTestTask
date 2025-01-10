@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./generateUrl.css";
-import useUrlStore from "../store/useUrlStore";
+import useUrlStore from "../../store/useUrlStore";
 
 export const GenerateUrl = () => {
   const [url, setUrl] = useState("");

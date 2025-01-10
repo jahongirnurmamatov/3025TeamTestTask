@@ -1,0 +1,12 @@
+.App{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+    gap: 60px;
+    margin: 40px 50px;
+    width: 100%;
+    align-items: center;
+    height: 100vh;
+}

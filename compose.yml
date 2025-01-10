@@ -1,0 +1,28 @@
+
+services:
+  web:
+    depends_on: 
+      - api
+    build: ./frontend
+    ports:
+      - 5173:5173
+
+  api: 
+    depends_on: 
+      - db
+    build: ./server
+    ports: 
+      - 4000:4000
+    environment: 
+      MONGO_URI: mongodb://db:27017/mydatabase
+      PORT: 4000 
+    
+  db:
+    image: mongo:4.4
+    ports:
+      - 27017:27017
+    volumes:
+      - project:/data/db
+
+volumes:
+  project:

@@ -26,9 +26,6 @@ export const shortenUrl = async (req, res) => {
         shortUrl = generateHash256(longUrl).slice(0, 6);
       } while (await ShortUrl.findOne({ shortUrl }));
     }
-    // Check if the original URL already has a short URL
-    
-    //  this is just to awoid possible collisions even if chance is small
 
     let expiresAt = null;
     if (expiresIn) {
@@ -65,7 +62,7 @@ export const getShortUrlAndRedirect = async (req, res) => {
       ip: ip,
     });
 
-    return res.status(200).json({ longUrl: url.longUrl });
+    return res.status(200).redirect(url.longUrl);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -120,3 +117,12 @@ export const getAnalytics = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getAllUrls = async(req,res)=>{
+  try {
+    const urls = await ShortUrl.find({}).select("shortUrl");
+    res.status(200).json({urls});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
